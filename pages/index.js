@@ -30,14 +30,26 @@ function HomePage(props) {
     return <MeetupList meetups={props.meetups} />
 }
 
-// static pre-rendering
-export async function getStaticProps() {
+// will be executed on Server every time
+export async function getServerSideProps(context) {
+    const req = context.req;
+    const res = context.res;
+    // fetch data from API
     return {
         props: {
             meetups: DUMMY_MEETUPS
-        },
-        revalidate: 10 // every 10 seconds server re-renders after deployed
-    }
+        }
+    };
 }
+
+// static pre-rendering. will be executed during build
+// export async function getStaticProps() {
+//     return {
+//         props: {
+//             meetups: DUMMY_MEETUPS
+//         },
+//         revalidate: 10 // every 10 seconds server re-renders after deployed
+//     }
+// }
 
 export default HomePage;
